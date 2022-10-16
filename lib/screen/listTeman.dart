@@ -10,55 +10,70 @@ class listTeman extends StatefulWidget {
 }
 
 class _listTemanState extends State<listTeman> {
+  int length = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Daftar Teman"),
+          title: Center(child: Text("Daftar Teman")),
         ),
         body: ListView(children: <Widget>[
-          Center(
-              child: Text(
-            'People-Chart',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          )),
           DataTable(
+            columnSpacing: 35,
             columns: [
               DataColumn(
-                  label: Text('ID',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold))),
+                label: Text("Nama",
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              ),
               DataColumn(
-                  label: Text('Name',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold))),
+                label: Text("Teman",
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              ),
               DataColumn(
-                  label: Text('Profession',
-                      style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold))),
+                label: Text(
+                  "Status",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+              ),
+              DataColumn(
+                label: Text("Aksi",
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              ),
             ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Stephen')),
-                DataCell(Text('Actor')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('5')),
-                DataCell(Text('John')),
-                DataCell(Text('Student')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('10')),
-                DataCell(Text('Harry')),
-                DataCell(Text('Leader')),
-              ]),
-              DataRow(cells: [
-                DataCell(Text('15')),
-                DataCell(Text('Peter')),
-                DataCell(Text('Scientist')),
-              ]),
-            ],
+            rows: List<DataRow>.generate(
+                length,
+                (int index) => DataRow(cells: [
+                      DataCell(Text("Bayu Al ikhlas Swari",
+                          style: TextStyle(fontSize: 13))),
+                      DataCell(Text("$index", style: TextStyle(fontSize: 13))),
+                      DataCell(Text("status", style: TextStyle(fontSize: 13))),
+                      DataCell(Row(
+                        children: <Widget>[
+                          Container(
+                              height: 30,
+                              width: 50,
+                              child: ElevatedButton(
+                                  onPressed: null,
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                  ))),
+                          Container(
+                              height: 30,
+                              width: 50,
+                              margin: EdgeInsets.only(left: 5.0),
+                              child: ElevatedButton(
+                                  onPressed: null,
+                                  child: Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                  )))
+                        ],
+                      )),
+                    ])),
           ),
         ]));
   }
