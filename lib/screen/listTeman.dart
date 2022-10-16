@@ -1,6 +1,8 @@
+import 'package:aplikasi_daftar_teman/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 
 class listTeman extends StatefulWidget {
   const listTeman({super.key});
@@ -11,6 +13,8 @@ class listTeman extends StatefulWidget {
 
 class _listTemanState extends State<listTeman> {
   int length = 4;
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,8 @@ class _listTemanState extends State<listTeman> {
         ),
         body: ListView(children: <Widget>[
           DataTable(
-            columnSpacing: 35,
+            showCheckboxColumn: false,
+            columnSpacing: 0.0,
             columns: [
               DataColumn(
                 label: Text("Nama",
@@ -37,43 +42,42 @@ class _listTemanState extends State<listTeman> {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
-              DataColumn(
-                label: Text("Aksi",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
             ],
             rows: List<DataRow>.generate(
                 length,
-                (int index) => DataRow(cells: [
-                      DataCell(Text("Bayu Al ikhlas Swari",
-                          style: TextStyle(fontSize: 13))),
-                      DataCell(Text("$index", style: TextStyle(fontSize: 13))),
-                      DataCell(Text("status", style: TextStyle(fontSize: 13))),
-                      DataCell(Row(
-                        children: <Widget>[
-                          Container(
-                              height: 30,
-                              width: 50,
-                              child: ElevatedButton(
-                                  onPressed: null,
-                                  child: Icon(
+                (int index) => DataRow(
+                        selected: isSelected,
+                        onSelectChanged: (value) {
+                          showAdaptiveActionSheet(
+                            context: context,
+                            androidBorderRadius: 30,
+                            actions: <BottomSheetAction>[
+                              BottomSheetAction(
+                                  title: Icon(
                                     Icons.edit,
-                                    size: 15,
-                                  ))),
-                          Container(
-                              height: 30,
-                              width: 50,
-                              margin: EdgeInsets.only(left: 5.0),
-                              child: ElevatedButton(
-                                  onPressed: null,
-                                  child: Icon(
+                                    size: 20,
+                                  ),
+                                  onPressed: (context) {}),
+                              BottomSheetAction(
+                                  title: Icon(
                                     Icons.delete,
-                                    size: 15,
-                                  )))
-                        ],
-                      )),
-                    ])),
+                                    size: 20,
+                                  ),
+                                  onPressed: (context) {}),
+                            ],
+                            cancelAction: CancelAction(
+                                title: const Text(
+                                    'Cancel')), // onPressed parameter is optional by default will dismiss the ActionSheet
+                          );
+                        },
+                        cells: [
+                          DataCell(Text("Bayu Al ikhlas Swari",
+                              style: TextStyle(fontSize: 13))),
+                          DataCell(
+                              Text("$index", style: TextStyle(fontSize: 13))),
+                          DataCell(
+                              Text("status", style: TextStyle(fontSize: 13))),
+                        ])),
           ),
         ]));
   }
