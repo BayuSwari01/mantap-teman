@@ -63,9 +63,14 @@ class _listTemanState extends State<listTeman> {
                                     size: 20,
                                   ),
                                   onPressed: (context) {
+                                    Navigator.pop(context);
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return editTeman();
+                                      return editTeman(
+                                        nama: nama[index],
+                                        teman: teman[index],
+                                        status: status[index],
+                                      );
                                     }));
                                   }),
                               BottomSheetAction(
@@ -73,7 +78,9 @@ class _listTemanState extends State<listTeman> {
                                     Icons.delete,
                                     size: 20,
                                   ),
-                                  onPressed: (context) {}),
+                                  onPressed: (context) {
+                                    Navigator.pop(context);
+                                  }),
                             ],
                             cancelAction: CancelAction(
                                 title: Text(

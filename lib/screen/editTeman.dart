@@ -3,7 +3,11 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class editTeman extends StatefulWidget {
-  const editTeman({super.key});
+  const editTeman({super.key, this.nama, this.teman, this.status});
+
+  final String? nama;
+  final String? teman;
+  final String? status;
 
   @override
   State<editTeman> createState() => _editTemanState();
@@ -13,6 +17,16 @@ class _editTemanState extends State<editTeman> {
   TextEditingController nama = TextEditingController();
   TextEditingController teman = TextEditingController();
   TextEditingController status = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nama.text = widget.nama!;
+    teman.text = widget.teman!;
+    status.text = widget.status!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
