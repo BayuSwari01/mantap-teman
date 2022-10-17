@@ -1,3 +1,5 @@
+import 'package:aplikasi_daftar_teman/screen/addTeman.dart';
+import 'package:aplikasi_daftar_teman/screen/editTeman.dart';
 import 'package:aplikasi_daftar_teman/screen/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -12,6 +14,9 @@ class listTeman extends StatefulWidget {
 }
 
 class _listTemanState extends State<listTeman> {
+  List<String> nama = ["bayu", "fuza", "baki", "abc"];
+  List<String> teman = ["-", "SMP", "Rumah", "aaa"];
+  List<String> status = ["Diri sendiri", "Pacar", "Sahabat", "wow"];
   int length = 4;
   bool isSelected = false;
 
@@ -57,7 +62,12 @@ class _listTemanState extends State<listTeman> {
                                     Icons.edit,
                                     size: 20,
                                   ),
-                                  onPressed: (context) {}),
+                                  onPressed: (context) {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return editTeman();
+                                    }));
+                                  }),
                               BottomSheetAction(
                                   title: Icon(
                                     Icons.delete,
@@ -66,18 +76,31 @@ class _listTemanState extends State<listTeman> {
                                   onPressed: (context) {}),
                             ],
                             cancelAction: CancelAction(
-                                title: const Text(
+                                title: Text(
                                     'Cancel')), // onPressed parameter is optional by default will dismiss the ActionSheet
                           );
                         },
                         cells: [
-                          DataCell(Text("Bayu Al ikhlas Swari",
+                          DataCell(Text(nama[index],
                               style: TextStyle(fontSize: 13))),
-                          DataCell(
-                              Text("$index", style: TextStyle(fontSize: 13))),
-                          DataCell(
-                              Text("status", style: TextStyle(fontSize: 13))),
+                          DataCell(Text(teman[index],
+                              style: TextStyle(fontSize: 13))),
+                          DataCell(Text(status[index],
+                              style: TextStyle(fontSize: 13))),
                         ])),
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return addTeman();
+                  }));
+                },
+                child: Icon(
+                  Icons.add,
+                  size: 20,
+                )),
           ),
         ]));
   }
