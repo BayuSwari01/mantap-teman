@@ -1,3 +1,4 @@
+import 'package:aplikasi_daftar_teman/models/databaseInstance.dart';
 import 'package:aplikasi_daftar_teman/screen/addTeman.dart';
 import 'package:aplikasi_daftar_teman/screen/editTeman.dart';
 import 'package:aplikasi_daftar_teman/screen/menu.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+
+import '../models/teman.dart';
 
 class listTeman extends StatefulWidget {
   const listTeman({super.key});
@@ -14,11 +17,16 @@ class listTeman extends StatefulWidget {
 }
 
 class _listTemanState extends State<listTeman> {
-  List<String> nama = ["bayu", "fuza", "baki", "abc"];
-  List<String> teman = ["-", "SMP", "Rumah", "aaa"];
-  List<String> status = ["Diri sendiri", "Pacar", "Sahabat", "wow"];
-  int length = 4;
+  DatabaseInstance databaseInstance = DatabaseInstance();
+  List<Teman>? teman;
   bool isSelected = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    databaseInstance.database();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
