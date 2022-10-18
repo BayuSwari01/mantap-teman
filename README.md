@@ -1,4 +1,7 @@
 # aplikasi_daftar_teman
+Creator :BayuSwari01
+
+this is aplication for list your friend, good for forgetful people.
 
 A new Flutter project.
 
