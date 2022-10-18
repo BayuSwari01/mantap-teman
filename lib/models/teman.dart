@@ -16,4 +16,23 @@ class Teman {
       status: json['status'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+
+    if (id != null) {
+      map['id'] = id;
+    }
+    map['nama'] = nama;
+    map['teman'] = teman;
+    map['status'] = status;
+    return map;
+  }
+
+  Teman.fromMap(Map<String, dynamic> map) {
+    this.id = map['id'];
+    this.nama = map['nama'];
+    this.teman = map['teman'];
+    this.status = map['status'];
+  }
 }

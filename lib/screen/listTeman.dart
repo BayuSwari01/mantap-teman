@@ -18,13 +18,18 @@ class listTeman extends StatefulWidget {
 
 class _listTemanState extends State<listTeman> {
   DatabaseInstance databaseInstance = DatabaseInstance();
-  List<Teman>? teman;
+  List<Teman> listTeman = [];
   bool isSelected = false;
+
+  initDatabase() async {
+    await databaseInstance.database();
+    _getTeman();
+  }
 
   @override
   void initState() {
     // TODO: implement initState
-    databaseInstance.database();
+    initDatabase();
     super.initState();
   }
 
@@ -57,7 +62,7 @@ class _listTemanState extends State<listTeman> {
               ),
             ],
             rows: List<DataRow>.generate(
-                length,
+                listTeman.length,
                 (int index) => DataRow(
                         selected: isSelected,
                         onSelectChanged: (value) {
@@ -69,24 +74,31 @@ class _listTemanState extends State<listTeman> {
                                   title: Icon(
                                     Icons.edit,
                                     size: 20,
+                                    color: Colors.blue,
                                   ),
-                                  onPressed: (context) {
+                                  onPressed: (context) async {
                                     Navigator.pop(context);
-                                    Navigator.push(context,
+                                    await Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return editTeman(
-                                        nama: nama[index],
-                                        teman: teman[index],
-                                        status: status[index],
+                                        id: listTeman[index].id,
+                                        nama: listTeman[index].nama,
+                                        teman: listTeman[index].teman,
+                                        status: listTeman[index].status,
                                       );
                                     }));
+                                    setState(() {
+                                      _getTeman();
+                                    });
                                   }),
                               BottomSheetAction(
                                   title: Icon(
                                     Icons.delete,
                                     size: 20,
+                                    color: Colors.red,
                                   ),
                                   onPressed: (context) {
+                                    _deleteTeman(listTeman[index], index);
                                     Navigator.pop(context);
                                   }),
                             ],
@@ -96,21 +108,25 @@ class _listTemanState extends State<listTeman> {
                           );
                         },
                         cells: [
-                          DataCell(Text(nama[index],
+                          DataCell(Text(listTeman[index].nama ?? "kosong",
                               style: TextStyle(fontSize: 13))),
-                          DataCell(Text(teman[index],
+                          DataCell(Text(listTeman[index].teman ?? "Kosong",
                               style: TextStyle(fontSize: 13))),
-                          DataCell(Text(status[index],
+                          DataCell(Text(listTeman[index].status ?? "Kosong",
                               style: TextStyle(fontSize: 13))),
                         ])),
           ),
           Container(
             margin: EdgeInsets.all(10),
             child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                onPressed: () async {
+                  await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
                     return addTeman();
                   }));
+                  setState(() {
+                    _getTeman();
+                  });
                 },
                 child: Icon(
                   Icons.add,
@@ -118,5 +134,25 @@ class _listTemanState extends State<listTeman> {
                 )),
           ),
         ]));
+  }
+
+  Future<void> _getTeman() async {
+    var list = await databaseInstance.getAllTeman();
+    setState(() {
+      listTeman.clear();
+
+      list!.forEach((teman) {
+        listTeman.add(Teman.fromMap(teman));
+      });
+    });
+  }
+
+  Future<void> _deleteTeman(Teman teman, int index) async {
+    if (teman.id != null) {
+      await databaseInstance.deleteTeman(teman.id ?? 0);
+    }
+    setState(() {
+      _getTeman();
+    });
   }
 }

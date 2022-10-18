@@ -16,6 +16,7 @@ class DatabaseInstance {
   final String nama = "nama";
   final String teman = "teman";
   final String status = "status";
+  final String filter = "kuliah";
 
   Database? _database;
   Future<Database> database() async {
@@ -47,5 +48,48 @@ class DatabaseInstance {
   Future<int> insert(Map<String, dynamic> row) async {
     final query = _database!.insert(tabel, row);
     return query;
+  }
+
+  Future<List?> getAllTeman() async {
+    var dbClient = await _database;
+    print(dbClient);
+    var result = await dbClient!.query(tabel, columns: [
+      id,
+      nama,
+      teman,
+      status,
+    ]);
+    return result.toList();
+  }
+
+  Future<List?> getAllTemanKuliah() async {
+    var dbClient = await _database;
+    print(dbClient);
+    var result = await dbClient!.query(tabel, where: '$teman = ?', whereArgs: [
+      filter
+    ], columns: [
+      id,
+      nama,
+      teman,
+      status,
+    ]);
+
+    return result.toList();
+  }
+
+  Future<int?> tambahTeman(Teman teman) async {
+    var dbClient = await _database;
+    return await dbClient!.insert(tabel, teman.toMap());
+  }
+
+  Future<int?> updateTeman(Teman teman) async {
+    var dbClient = await _database;
+    return await dbClient!
+        .update(tabel, teman.toMap(), where: '$id = ?', whereArgs: [teman.id]);
+  }
+
+  Future<int?> deleteTeman(int Id) async {
+    var dbClient = await _database;
+    return await dbClient!.delete(tabel, where: '$id = ?', whereArgs: [Id]);
   }
 }
