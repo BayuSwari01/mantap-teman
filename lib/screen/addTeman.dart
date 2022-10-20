@@ -63,8 +63,14 @@ class _addTemanState extends State<addTeman> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          await upTeman();
-                          Navigator.pop(context);
+                          if (nama.text == "" ||
+                              teman.text == "" ||
+                              status.text == "") {
+                            _dialogBuilder(context);
+                          } else {
+                            await upTeman();
+                            Navigator.pop(context);
+                          }
                         },
                         child: Icon(
                           Icons.add,
@@ -89,5 +95,28 @@ class _addTemanState extends State<addTeman> {
         status: status.text,
       ));
     }
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Form kosong'),
+          content: const Text('Harap isi semua form'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
